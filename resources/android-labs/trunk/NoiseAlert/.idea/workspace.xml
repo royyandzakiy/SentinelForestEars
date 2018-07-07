@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="b337414a-ad25-4073-96b5-378f7c726d84" name="Default" comment="" />
+    <list default="true" readonly="true" id="b337414a-ad25-4073-96b5-378f7c726d84" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/src/com/google/android/noisealert/NoiseAlert.java" afterPath="$PROJECT_DIR$/src/com/google/android/noisealert/NoiseAlert.java" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,11 +23,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NoiseAlert.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="NoiseAlert.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/google/android/noisealert/NoiseAlert.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="512">
-              <caret line="135" column="19" lean-forward="false" selection-start-line="135" selection-start-column="12" selection-end-line="135" selection-end-column="19" />
+            <state relative-caret-position="152">
+              <caret line="157" column="12" lean-forward="false" selection-start-line="157" selection-start-column="12" selection-end-line="157" selection-end-column="12" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -43,11 +45,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="44" lean-forward="false" selection-start-line="5" selection-start-column="44" selection-end-line="9" selection-end-column="67" />
+            <state relative-caret-position="340">
+              <caret line="20" column="55" lean-forward="false" selection-start-line="20" selection-start-column="55" selection-end-line="20" selection-end-column="55" />
               <folding />
             </state>
           </provider>
@@ -125,11 +127,25 @@
       <find>mpolldelay</find>
       <find>mhandle</find>
       <find>start()</find>
+      <find>protection</find>
+      <find>PROTECTION</find>
+      <find>mstatusview</find>
+      <find>mPollTask</find>
+      <find>mPollTaskIsRunning</find>
+      <find>mrunning</find>
+      <find>mRunning</find>
     </findStrings>
   </component>
   <component name="GradleLocalSettings">
     <option name="externalProjectsViewState">
       <projects_view />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/com/google/android/noisealert/NoiseAlert.java" />
+      </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
@@ -479,16 +495,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/google/android/noisealert/NoiseAlert.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="512">
-          <caret line="135" column="19" lean-forward="false" selection-start-line="135" selection-start-column="12" selection-end-line="135" selection-end-column="19" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.idea/misc.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -499,9 +505,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="44" lean-forward="false" selection-start-line="5" selection-start-column="44" selection-end-line="9" selection-end-column="67" />
+        <state relative-caret-position="340">
+          <caret line="20" column="55" lean-forward="false" selection-start-line="20" selection-start-column="55" selection-end-line="20" selection-end-column="55" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/google/android/noisealert/NoiseAlert.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="157" column="12" lean-forward="false" selection-start-line="157" selection-start-column="12" selection-end-line="157" selection-end-column="12" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

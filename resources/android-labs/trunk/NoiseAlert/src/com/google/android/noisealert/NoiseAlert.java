@@ -78,31 +78,31 @@ public class NoiseAlert extends Activity implements SmsRemoteReceiver {
 	};
 	private Runnable mPollTask = new Runnable() {
 		public void run() {
-			double amp = mSensor.getAmplitude();
-			if (mTestMode) updateDisplay("testing...", amp);
-			else           updateDisplay("monitoring...", amp);
+				double amp = mSensor.getAmplitude();
+				if (mTestMode) updateDisplay("testing...", amp);
+				else updateDisplay("monitoring...", amp);
 
-			if ((amp > mThreshold) && !mTestMode) {
-				mHitCount++;
-				if (mHitCount > 5){
-					callForHelp();
-					return;
+				if ((amp > mThreshold) && !mTestMode) {
+					mHitCount++;
+					if (mHitCount > 5) {
+						callForHelp();
+						return;
+					}
 				}
-			}
 
-			mTickCount++;
-			setActivityLed(mTickCount% 2 == 0);
-			
-			if ((mTestMode || mPollDelay > 0) && mTickCount > 100) {
-				if (mTestMode) {
-					stop();
+				mTickCount++;
+				setActivityLed(mTickCount % 2 == 0);
+
+				if ((mTestMode || mPollDelay > 0) && mTickCount > 100) {
+					if (mTestMode) {
+						stop();
+					} else {
+						sleep();
+					}
 				} else {
-					sleep();
+					mHandler.postDelayed(mPollTask, POLL_INTERVAL);
 				}
-			} else {
-				mHandler.postDelayed(mPollTask, POLL_INTERVAL);
 			}
-		}
 	};
 	/** Called when the activity is first created. */
 	@Override

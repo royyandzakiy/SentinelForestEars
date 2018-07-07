@@ -1,9 +1,12 @@
 package thesentinel.evesdropper;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -70,11 +73,11 @@ public class DeviceList extends AppCompatActivity {
         public void run() {
             double amp = mSensor.getAmplitude();
             if (mTestMode) updateDisplay("testing...", amp);
-            else           updateDisplay("monitoring...", amp);
+            else updateDisplay("monitoring...", amp);
 
             if ((amp > mThreshold) && !mTestMode) {
                 mHitCount++;
-                if (mHitCount > 5){
+                if (mHitCount > 5) {
                     // callForHelp();
                     // do nothing...
                     return;
@@ -82,7 +85,7 @@ public class DeviceList extends AppCompatActivity {
             }
 
             mTickCount++;
-            setActivityLed(mTickCount% 2 == 0);
+            setActivityLed(mTickCount % 2 == 0);
 
             if ((mTestMode || mPollDelay > 0) && mTickCount > 100) {
                 if (mTestMode) {
@@ -133,7 +136,7 @@ public class DeviceList extends AppCompatActivity {
             }
         });
 
-        //Noise Alert
+        /** Noise Alert **/
         mStatusView = (TextView) findViewById(R.id.status);
         mActivityLed = (ImageView) findViewById(R.id.activity_led);
 
@@ -147,6 +150,7 @@ public class DeviceList extends AppCompatActivity {
 
     private void updateDisplay(String status, double signalEMA) {
         mStatusView.setText(status);
+        Log.d("DEBUG","DeviceList::updateDisplay:" + status);
 
         mDisplay.setLevel((int)signalEMA, mThreshold);
     }
@@ -158,7 +162,14 @@ public class DeviceList extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        start();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO},
+                    0);
+            start();
+        } else {
+            start();
+        }
     }
 
     @Override

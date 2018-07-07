@@ -17,7 +17,10 @@
 package thesentinel.evesdropper;
 
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 import java.io.IOException;
@@ -38,11 +41,11 @@ public class SoundMeter {
 				mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 				mRecorder.setOutputFile("/dev/null");
 				mRecorder.prepare();
+		    	mRecorder.start();
 			} catch (Exception e) {
-		    	Log.e("ERROR",e.getMessage());
-		    	e.printStackTrace();
+				Log.e("ERROR",e.getMessage());
+				e.printStackTrace();
 			}
-		    mRecorder.start();
 		    mEMA = 0.0;
 		}
 	}
