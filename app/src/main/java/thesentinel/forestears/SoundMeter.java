@@ -14,16 +14,11 @@
  * limitations under the License.
  */
 
-package thesentinel.evesdropper;
+package thesentinel.forestears;
 
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
-
-import java.io.IOException;
 
 public class SoundMeter {
 	static final private double EMA_FILTER = 0.6;

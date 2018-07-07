@@ -1,4 +1,4 @@
-package thesentinel.evesdropper;
+package thesentinel.forestears;
 
 import org.junit.Test;
 

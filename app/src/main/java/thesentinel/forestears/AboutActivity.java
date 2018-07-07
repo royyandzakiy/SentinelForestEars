@@ -1,4 +1,4 @@
-package thesentinel.evesdropper;
+package thesentinel.forestears;
 
 import android.content.Intent;
 import android.net.Uri;

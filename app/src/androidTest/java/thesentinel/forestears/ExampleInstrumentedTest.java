@@ -1,4 +1,4 @@
-package thesentinel.evesdropper;
+package thesentinel.forestears;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

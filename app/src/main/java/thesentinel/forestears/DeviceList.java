@@ -1,12 +1,6 @@
-package thesentinel.evesdropper;
+package thesentinel.forestears;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Handler;
-import android.os.PowerManager;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -35,69 +28,6 @@ public class DeviceList extends AppCompatActivity {
     private BluetoothAdapter myBluetooth = null;
     private Set<BluetoothDevice> pairedDevices;
     public static String EXTRA_ADDRESS = "device_address";
-
-    /** NOISE ALERT **/
-    /* constants */
-    private static final String LOG_TAG = "NoiseAlert";
-    private static final int POLL_INTERVAL = 300;
-    private static final int NO_NUM_DIALOG_ID=1;
-    private static final String[] REMOTE_CMDS = {"start", "stop", "panic"};
-
-    /* running state */
-    private boolean mAutoResume = false;
-    private boolean mRunning = false;
-    private boolean mTestMode = false;
-    private int mTickCount = 0;
-    private int mHitCount =0;
-
-    /* config state */
-    private int mThreshold;
-    private int mPollDelay;
-    private PowerManager.WakeLock mWakeLock;
-    private Handler mHandler = new Handler();
-
-    /* References to view elements */
-    private TextView mStatusView;
-    private ImageView mActivityLed;
-    private SoundLevelView mDisplay;
-
-    /* data source */
-    private SoundMeter mSensor;
-
-    private Runnable mSleepTask = new Runnable() {
-        public void run() {
-            start();
-        }
-    };
-    private Runnable mPollTask = new Runnable() {
-        public void run() {
-            double amp = mSensor.getAmplitude();
-            if (mTestMode) updateDisplay("testing...", amp);
-            else updateDisplay("monitoring...", amp);
-
-            if ((amp > mThreshold) && !mTestMode) {
-                mHitCount++;
-                if (mHitCount > 5) {
-                    // callForHelp();
-                    // do nothing...
-                    return;
-                }
-            }
-
-            mTickCount++;
-            setActivityLed(mTickCount % 2 == 0);
-
-            if ((mTestMode || mPollDelay > 0) && mTickCount > 100) {
-                if (mTestMode) {
-                    stop();
-                } else {
-                    sleep();
-                }
-            } else {
-                mHandler.postDelayed(mPollTask, POLL_INTERVAL);
-            }
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -135,69 +65,6 @@ public class DeviceList extends AppCompatActivity {
                 pairedDevicesList();
             }
         });
-
-        /** Noise Alert **/
-        mStatusView = (TextView) findViewById(R.id.status);
-        mActivityLed = (ImageView) findViewById(R.id.activity_led);
-
-        mSensor = new SoundMeter();
-        mDisplay = (SoundLevelView) findViewById(R.id.volume);
-
-        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "NoiseAlert");
-    }
-
-
-    private void updateDisplay(String status, double signalEMA) {
-        mStatusView.setText(status);
-        Log.d("DEBUG","DeviceList::updateDisplay:" + status);
-
-        mDisplay.setLevel((int)signalEMA, mThreshold);
-    }
-
-    private void setActivityLed(boolean on) {
-        mActivityLed.setVisibility( on ? View.VISIBLE : View.INVISIBLE);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO},
-                    0);
-            start();
-        } else {
-            start();
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        stop();
-    }
-
-    private void start() {
-        Log.d("DEBUG","DeviceList::onStart()");
-        mSensor.start();
-        if (!mWakeLock.isHeld()) {
-            mWakeLock.acquire();
-        }
-    }
-
-    private void stop() {
-        Log.d("DEBUG","DeviceList::onStop()");
-        if (mWakeLock.isHeld()) {
-            mWakeLock.release();
-        }
-        mSensor.stop();
-        mDisplay.setLevel(0,0);
-    }
-
-    private void sleep() {
-        Log.d("DEBUG","DeviceList::onSleep()");
-        mSensor.stop();
     }
 
     private void pairedDevicesList()
