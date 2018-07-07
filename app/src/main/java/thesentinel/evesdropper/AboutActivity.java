@@ -1,4 +1,4 @@
-package jaballogian.bluetoothtest;
+package thesentinel.evesdropper;
 
 import android.content.Intent;
 import android.net.Uri;

@@ -1,4 +1,4 @@
-package jaballogian.bluetoothtest;
+package thesentinel.evesdropper;
 
 import org.junit.Test;
 

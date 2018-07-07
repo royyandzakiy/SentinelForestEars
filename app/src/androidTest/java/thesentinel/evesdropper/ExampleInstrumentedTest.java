@@ -1,4 +1,4 @@
-package jaballogian.bluetoothtest;
+package thesentinel.evesdropper;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
