@@ -1,5 +1,8 @@
 package thesentinel.evesdropper;
 
+import android.content.Context;
+import android.os.Handler;
+import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,6 +12,8 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -76,8 +81,6 @@ public class ledControl extends AppCompatActivity {
                 Disconnect(); //close connection
             }
         });
-
-
     }
 
     private void Disconnect()

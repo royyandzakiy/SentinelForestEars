@@ -7,6 +7,43 @@
     tools:context=".DeviceList">
 
     <TextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:text="@string/stopped"
+        />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        >
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            >
+            <ImageView
+                android:id="@+id/activity_led"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10sp"
+                android:visibility="invisible"
+                android:src="@drawable/ic_notification_bell"
+                />
+            <thesentinel.evesdropper.SoundLevelView
+                android:id="@+id/volume"
+                android:layout_width="43sp"
+                android:layout_height="230sp"
+                android:layout_centerInParent="true"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Paired Devices"
