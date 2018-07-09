@@ -29,11 +29,11 @@ public class SoundRecorder extends AppCompatActivity {
     private ConstraintLayout constraintLayout;
     private MediaRecorder mRecorder;
     private static double MAX_AMPLITUDE_THRESHOLD = 60.0;
-    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("DEBUG","SoundRecorder.onCreate");
         setContentView(R.layout.activity_sound_recorder);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -56,9 +56,44 @@ public class SoundRecorder extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        Log.d("DEBUG","SoundRecorder.onStart");
         getPermission();
+        record();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("DEBUG","SoundRecorder.onResume");
+        getPermission();
+        record();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("DEBUG","SoundRecorder.onPause");
+        if (mRecorder == null) {
+            mRecorder.stop();
+            mRecorder = null;
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("DEBUG","SoundRecorder.onStop");
+        if (mRecorder == null) {
+            mRecorder.stop();
+            mRecorder = null;
+        }
+    }
+
+    private void record() {
+        Log.d("DEBUG","record()");
         if (mRecorder == null) {
             try {
+                Log.d("DEBUG","mRecorder NULL");
                 mRecorder = new MediaRecorder();
                 mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                 mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -66,7 +101,7 @@ public class SoundRecorder extends AppCompatActivity {
                 mRecorder.setOutputFile("/dev/null");
 
                 Timer timer = new Timer();
-                timer.scheduleAtFixedRate(new RecorderTask(mRecorder), 0, 500);
+                timer.scheduleAtFixedRate(new RecorderTask(mRecorder), 0, 50);
                 try {
                     mRecorder.prepare();
                     mRecorder.start();
@@ -91,17 +126,21 @@ public class SoundRecorder extends AppCompatActivity {
     }
 
     private void updateAmplitude(double amplitudeDb) {
-        amplitudeValue.setText(String.valueOf(round(amplitudeDb)) + " dB");
-        if (amplitudeDb > MAX_AMPLITUDE_THRESHOLD) {
-            triggered();
-        } else {
-            constraintLayout.setBackground(getResources().getDrawable(R.drawable.bg));
+        if (amplitudeDb > 0 && amplitudeDb < 1000) {
+            amplitudeValue.setText(String.valueOf(round(amplitudeDb)) + " dB");
+            if (amplitudeDb > MAX_AMPLITUDE_THRESHOLD) {
+                triggered();
+            } else {
+                constraintLayout.setBackground(getResources().getDrawable(R.drawable.bg));
+                // ledControl.turnOffLed();
+            }
         }
     }
 
     private void triggered() {
         // change trigger with your needs.
         constraintLayout.setBackground(getResources().getDrawable(R.drawable.bg_danger));
+        // ledControl.turnOnLed();
     }
 
     private class RecorderTask extends TimerTask {
@@ -118,6 +157,7 @@ public class SoundRecorder extends AppCompatActivity {
                 public void run() {
                     int amplitude = mRecorder.getMaxAmplitude();
                     double amplitudeDb = 20 * Math.log10((double) Math.abs(amplitude));
+                    Log.d("DEBUG","amplitudeDb:" + amplitudeDb);
                     updateAmplitude(round(amplitudeDb));
                 }
             });
