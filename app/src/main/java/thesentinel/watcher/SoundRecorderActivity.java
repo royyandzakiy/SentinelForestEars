@@ -23,17 +23,17 @@ import java.util.TimerTask;
 
 import static java.lang.Math.round;
 
-public class SoundRecorder extends AppCompatActivity {
+public class SoundRecorderActivity extends AppCompatActivity {
 
     private TextView amplitudeValue;
     private ConstraintLayout constraintLayout;
     private MediaRecorder mRecorder;
-    private static double MAX_AMPLITUDE_THRESHOLD = 60.0;
+    private static double MAX_AMPLITUDE_THRESHOLD = 80.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("DEBUG","SoundRecorder.onCreate");
+        Log.d("DEBUG","SoundRecorderActivity.onCreate");
         setContentView(R.layout.activity_sound_recorder);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -44,7 +44,7 @@ public class SoundRecorder extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),DeviceList.class));
+                startActivity(new Intent(getApplicationContext(),DeviceListActivity.class));
                 finish();
             }
         });
@@ -56,7 +56,7 @@ public class SoundRecorder extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("DEBUG","SoundRecorder.onStart");
+        Log.d("DEBUG","SoundRecorderActivity.onStart");
         getPermission();
         record();
     }
@@ -64,7 +64,7 @@ public class SoundRecorder extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("DEBUG","SoundRecorder.onResume");
+        Log.d("DEBUG","SoundRecorderActivity.onResume");
         getPermission();
         record();
     }
@@ -72,7 +72,7 @@ public class SoundRecorder extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d("DEBUG","SoundRecorder.onPause");
+        Log.d("DEBUG","SoundRecorderActivity.onPause");
         if (mRecorder == null) {
             mRecorder.stop();
             mRecorder = null;
@@ -82,7 +82,7 @@ public class SoundRecorder extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d("DEBUG","SoundRecorder.onStop");
+        Log.d("DEBUG","SoundRecorderActivity.onStop");
         if (mRecorder == null) {
             mRecorder.stop();
             mRecorder = null;

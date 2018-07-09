@@ -21,11 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="thesentinel.watcher.LedControl" />
-        <activity android:name="thesentinel.watcher.DeviceList" />
+        <activity android:name="thesentinel.watcher.LedControlActivity" />
+        <activity android:name="thesentinel.watcher.DeviceListActivity" />
         <activity android:name="thesentinel.watcher.AboutActivity" />
         <activity
-            android:name="thesentinel.watcher.SoundRecorder"
+            android:name="thesentinel.watcher.SoundRecorderActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>

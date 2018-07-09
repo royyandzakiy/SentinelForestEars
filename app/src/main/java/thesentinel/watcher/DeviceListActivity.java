@@ -19,7 +19,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class DeviceList extends AppCompatActivity {
+public class DeviceListActivity extends AppCompatActivity {
 
     //widgets
     Button btnPaired;
@@ -32,7 +32,7 @@ public class DeviceList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        Log.d("DEBUG","DeviceList::onCreate()");
+        Log.d("DEBUG","DeviceListActivity::onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_list);
 
@@ -99,10 +99,10 @@ public class DeviceList extends AppCompatActivity {
             String address = info.substring(info.length() - 17);
 
             // Make an intent to start next activity.
-            Intent i = new Intent(DeviceList.this, LedControl.class);
+            Intent i = new Intent(DeviceListActivity.this, LedControlActivity.class);
 
             //Change the activity.
-            i.putExtra(EXTRA_ADDRESS, address); //this will be received at LedControl (class) Activity
+            i.putExtra(EXTRA_ADDRESS, address); //this will be received at LedControlActivity (class) Activity
             startActivity(i);
         }
     };
@@ -125,7 +125,7 @@ public class DeviceList extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            startActivity(new Intent(getApplicationContext(),SoundRecorder.class));
+            startActivity(new Intent(getApplicationContext(),SoundRecorderActivity.class));
             finish();
             return true;
         }

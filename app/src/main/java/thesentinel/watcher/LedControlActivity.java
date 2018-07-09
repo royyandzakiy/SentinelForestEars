@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 
-public class LedControl extends AppCompatActivity {
+public class LedControlActivity extends AppCompatActivity {
 
     // Button btnOn, btnOff, btnDis;
     ImageButton On, Off, Discnt, Abt;
@@ -37,9 +37,9 @@ public class LedControl extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Intent newint = getIntent();
-        address = newint.getStringExtra(DeviceList.EXTRA_ADDRESS); //receive the address of the bluetooth device
+        address = newint.getStringExtra(DeviceListActivity.EXTRA_ADDRESS); //receive the address of the bluetooth device
 
-        //view of the LedControl
+        //view of the LedControlActivity
         setContentView(R.layout.activity_led_control);
 
         //call the widgets
@@ -169,7 +169,7 @@ public class LedControl extends AppCompatActivity {
         @Override
         protected void onPreExecute()
         {
-            progress = ProgressDialog.show(LedControl.this, "Connecting...", "Please wait!!!");  //show a progress dialog
+            progress = ProgressDialog.show(LedControlActivity.this, "Connecting...", "Please wait!!!");  //show a progress dialog
         }
 
         @Override
