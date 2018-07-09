@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="thesentinel.forestears">
+    package="thesentinel.watcher">
 
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
-
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
@@ -12,21 +11,27 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name="thesentinel.forestears.SplashScreen">
+        android:theme="@style/AppTheme">
+        <activity android:name="thesentinel.watcher.SplashScreen"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="thesentinel.forestears.ledControl" />
-        <activity android:name="thesentinel.forestears.DeviceList" />
-        <activity android:name="thesentinel.forestears.AboutActivity"></activity>
+        <activity android:name="thesentinel.watcher.ledControl" />
+        <activity android:name="thesentinel.watcher.DeviceList" />
+        <activity android:name="thesentinel.watcher.AboutActivity" />
+        <activity
+            android:name="thesentinel.watcher.SoundRecorder"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

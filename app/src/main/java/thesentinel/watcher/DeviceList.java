@@ -1,4 +1,4 @@
-package thesentinel.forestears;
+package thesentinel.watcher;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -125,6 +125,8 @@ public class DeviceList extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(getApplicationContext(),SoundRecorder.class));
+            finish();
             return true;
         }
 

@@ -1,4 +1,4 @@
-package thesentinel.forestears;
+package thesentinel.watcher;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

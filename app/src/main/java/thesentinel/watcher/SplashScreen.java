@@ -1,4 +1,4 @@
-package thesentinel.forestears;
+package thesentinel.watcher;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ public class SplashScreen extends AppCompatActivity {
         Thread timerThread = new Thread(){
             public void run(){
                 try{
-                    sleep(700);
+                    sleep(1500);
                 }catch(InterruptedException e){
                     e.printStackTrace();
                 }finally{

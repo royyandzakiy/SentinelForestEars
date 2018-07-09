@@ -1,4 +1,4 @@
-package thesentinel.forestears;
+package thesentinel.watcher;
 
 import android.content.Intent;
 import android.net.Uri;
