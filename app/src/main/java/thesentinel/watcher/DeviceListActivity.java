@@ -99,7 +99,7 @@ public class DeviceListActivity extends AppCompatActivity {
             String address = info.substring(info.length() - 17);
 
             // Make an intent to start next activity.
-            Intent i = new Intent(DeviceListActivity.this, LedControlActivity.class);
+            Intent i = new Intent(DeviceListActivity.this, SoundRecorderActivity.class);
 
             //Change the activity.
             i.putExtra(EXTRA_ADDRESS, address); //this will be received at LedControlActivity (class) Activity
@@ -125,7 +125,7 @@ public class DeviceListActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            startActivity(new Intent(getApplicationContext(),SoundRecorderActivity.class));
+            startActivity(new Intent(DeviceListActivity.this,SoundRecorderActivity.class));
             finish();
             return true;
         }

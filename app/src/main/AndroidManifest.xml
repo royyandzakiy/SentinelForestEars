@@ -13,7 +13,8 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="thesentinel.watcher.SplashScreen"
+        <activity
+            android:name=".SplashScreen"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,14 +22,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="thesentinel.watcher.LedControlActivity" />
-        <activity android:name="thesentinel.watcher.DeviceListActivity" />
-        <activity android:name="thesentinel.watcher.AboutActivity" />
+        <activity android:name=".LedControlActivity" />
+        <activity android:name=".DeviceListActivity" />
+        <activity android:name=".AboutActivity" />
         <activity
-            android:name="thesentinel.watcher.SoundRecorderActivity"
+            android:name=".SoundRecorderActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".SpeechActivity"></activity>
     </application>
 
 </manifest>
