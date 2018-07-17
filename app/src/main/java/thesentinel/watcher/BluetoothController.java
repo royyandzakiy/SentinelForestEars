@@ -23,7 +23,6 @@ public class BluetoothController {
     // Button btnOn, btnOff, btnDis;
     ImageButton On, Off, Discnt, Abt;
     String address = null;
-    private ProgressDialog progress;
     BluetoothAdapter myBluetooth = null;
     BluetoothSocket btSocket = null;
     private boolean isBtConnected = false;
@@ -34,6 +33,9 @@ public class BluetoothController {
 
     protected BluetoothController(String address, SoundRecorderActivity activity)
     {
+        if (address == null) {
+            activity.finish();
+        }
         this.address = address;
         this.activity = activity;
         new ConnectBT().execute(); //Call the class to connect
@@ -51,6 +53,20 @@ public class BluetoothController {
             { msg("Error");}
         }
 
+    }
+
+    public void sendMsg(String msg) {
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write(msg.toString().getBytes());
+            }
+            catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
     }
 
     public void turnOffLed()
@@ -98,7 +114,8 @@ public class BluetoothController {
         @Override
         protected void onPreExecute()
         {
-            progress = ProgressDialog.show(activity.getApplicationContext(), "Connecting...", "Please wait!!!");  //show a progress dialog
+            //ProgressDialog progress = ProgressDialog.show(activity.getApplicationContext(), "Connecting...", "Please wait!!!");  //show a progress dialog
+            //activity.setProgress(progress);
         }
 
         @Override
@@ -106,7 +123,7 @@ public class BluetoothController {
         {
             try
             {
-                if (btSocket == null || !isBtConnected)
+                if ((btSocket == null || !isBtConnected) && address != null)
                 {
                     myBluetooth = BluetoothAdapter.getDefaultAdapter();//get the mobile bluetooth device
                     BluetoothDevice dispositivo = myBluetooth.getRemoteDevice(address);//connects to the device's address and checks if it's available
@@ -135,7 +152,7 @@ public class BluetoothController {
                 msg("Connected.");
                 isBtConnected = true;
             }
-            progress.dismiss();
+            // activity.getProgress().dismiss();
         }
     }
 }

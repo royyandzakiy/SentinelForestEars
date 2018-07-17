@@ -19,7 +19,7 @@ public class SplashScreen extends AppCompatActivity {
                 }catch(InterruptedException e){
                     e.printStackTrace();
                 }finally{
-                    Intent intent = new Intent(SplashScreen.this,DeviceListActivity.class);
+                    Intent intent = new Intent(SplashScreen.this,SoundRecorderActivity.class);
                     startActivity(intent);
                 }
             }

@@ -25,7 +25,6 @@ public class SoundRecorderController {
     public void record() {
         if (mRecorder == null) {
             try {
-                Log.d("DEBUG","mRecorder NULL");
                 mRecorder = new MediaRecorder();
                 mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                 mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);

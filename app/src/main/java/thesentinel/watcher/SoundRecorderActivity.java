@@ -10,12 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.UUID;
@@ -33,7 +34,8 @@ public class SoundRecorderActivity extends AppCompatActivity {
 
     /* Bluetooth */
     private BluetoothController bluetoothController;
-    private Button btnLightSwitch, btnDisconnect;
+    private Button btnLightSwitch, btnDisconnect, btnSendMsg;
+    private EditText msg;
     private boolean lightStatusOn = false;
     private ProgressDialog progress;
     String address = null;
@@ -68,18 +70,33 @@ public class SoundRecorderActivity extends AppCompatActivity {
     public void updateAmplitude(double amplitudeDb) {
         if (amplitudeDb > 0 && amplitudeDb < 1000) {
             amplitudeValue.setText(String.valueOf(round(amplitudeDb)) + " dB");
-            if (amplitudeDb > MAX_AMPLITUDE_THRESHOLD) {
-                triggered();
+
+            boolean triggered = amplitudeDb > MAX_AMPLITUDE_THRESHOLD;
+
+            if (triggered) {
+                actionTriggered();
             } else {
                 constraintLayout.setBackground(getResources().getDrawable(R.drawable.bg));
             }
         }
     }
 
-    private void triggered() {
-        // change trigger with your needs.
-        bluetoothController.turnOnLed();
-        btnLightSwitch.setText("Off");
+    private void sendMsg() {
+        String s = msg.getText().toString();
+        //bluetoothController.sendMsg(s);
+    }
+
+    private void actionTriggered() {
+        // do something when actionTriggered
+        //bluetoothController.turnOnLed();
+    }
+
+    public void setProgress(ProgressDialog progress) {
+        this.progress = progress;
+    }
+
+    public ProgressDialog getProgress() {
+        return progress;
     }
 
     /** INITIALIZATION **/
@@ -99,6 +116,7 @@ public class SoundRecorderActivity extends AppCompatActivity {
     }
 
     private void initializeBlutooth() {
+        msg = (EditText) findViewById(R.id.msg);
         Intent newint = getIntent();
         address = newint.getStringExtra(DeviceListActivity.EXTRA_ADDRESS); //receive the address of the bluetooth device
         bluetoothController = new BluetoothController(address, this);
@@ -120,6 +138,14 @@ public class SoundRecorderActivity extends AppCompatActivity {
                 } else {
                     bluetoothController.turnOffLed();
                 }
+            }
+        });
+
+        btnSendMsg = (Button) findViewById(R.id.btnSendMsg);
+        btnSendMsg.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                sendMsg();
             }
         });
 

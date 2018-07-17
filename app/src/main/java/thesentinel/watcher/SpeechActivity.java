@@ -87,7 +87,7 @@ public class SpeechActivity extends Activity {
         Log.i(LOG_TAG, "Reading labels from: " + actualFilename);
         BufferedReader br = null;
         try {
-                br = new BufferedReader(new InputStreamReader(getAssets().open(actualFilename)));
+            br = new BufferedReader(new InputStreamReader(getAssets().open(actualFilename)));
             String line;
             while ((line = br.readLine()) != null) {
                 labels.add(line);
