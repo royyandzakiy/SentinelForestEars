@@ -1,10 +1,7 @@
 package thesentinel.watcher;
 
 import android.app.ProgressDialog;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
-import android.media.MediaRecorder;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,10 +13,8 @@ import android.view.View;
 
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import java.util.UUID;
+import android.widget.Toast;
 
 import static java.lang.Math.round;
 
@@ -29,8 +24,7 @@ public class SoundRecorderActivity extends AppCompatActivity {
     private SoundRecorderController soundRecorderController;
     private TextView amplitudeValue;
     private ConstraintLayout constraintLayout;
-    private MediaRecorder mRecorder;
-    private static double MAX_AMPLITUDE_THRESHOLD = 80.0;
+    private static double MAX_AMPLITUDE_THRESHOLD = 85.0;
 
     /* Bluetooth */
     private BluetoothController bluetoothController;
@@ -38,12 +32,7 @@ public class SoundRecorderActivity extends AppCompatActivity {
     private EditText msg;
     private boolean lightStatusOn = false;
     private ProgressDialog progress;
-    String address = null;
-    BluetoothAdapter myBluetooth = null;
-    BluetoothSocket btSocket = null;
-    private boolean isBtConnected = false;
-    //SPP UUID. Look for it
-    static final UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private String address = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +40,13 @@ public class SoundRecorderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sound_recorder);
 
         /* Toolbar */
-        initializeToolbar();
+        initializeLayout();
 
         /* Sound Recorder */
         initializeSoundRecorder();
 
         /* Bluetooth */
-        initializeBlutooth();
+        // initializeBlutooth();
     }
 
     /** SOUND RECORDER **/
@@ -65,6 +54,12 @@ public class SoundRecorderActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         soundRecorderController.record();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // soundRecorderController.cleanUp();
     }
 
     public void updateAmplitude(double amplitudeDb) {
@@ -83,12 +78,19 @@ public class SoundRecorderActivity extends AppCompatActivity {
 
     private void sendMsg() {
         String s = msg.getText().toString();
-        //bluetoothController.sendMsg(s);
+        // bluetoothController.sendMsg(s);
     }
 
     private void actionTriggered() {
         // do something when actionTriggered
-        //bluetoothController.turnOnLed();
+        this.sendMsg();
+        Toast.makeText(this.getApplicationContext(), "Triggered!", Toast.LENGTH_SHORT);
+
+        Intent i = new Intent(getApplicationContext(),DetectedActivity.class);
+        i.putExtra("latlng", String.valueOf(msg));
+        startActivity(i);
+        // soundRecorderController.cleanUp();
+        finish();
     }
 
     public void setProgress(ProgressDialog progress) {
@@ -100,8 +102,15 @@ public class SoundRecorderActivity extends AppCompatActivity {
     }
 
     /** INITIALIZATION **/
-    private void initializeToolbar() {
+    private void initializeLayout() {
+        constraintLayout = (ConstraintLayout) findViewById(R.id.constraintLayout);
+        msg = (EditText) findViewById(R.id.msg);
+        btnLightSwitch = (Button) findViewById(R.id.btnLightSwitch);
+        btnSendMsg = (Button) findViewById(R.id.btnSendMsg);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        amplitudeValue = (TextView) findViewById(R.id.amplitudeValue);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -116,7 +125,6 @@ public class SoundRecorderActivity extends AppCompatActivity {
     }
 
     private void initializeBlutooth() {
-        msg = (EditText) findViewById(R.id.msg);
         Intent newint = getIntent();
         address = newint.getStringExtra(DeviceListActivity.EXTRA_ADDRESS); //receive the address of the bluetooth device
         bluetoothController = new BluetoothController(address, this);
@@ -129,7 +137,6 @@ public class SoundRecorderActivity extends AppCompatActivity {
             }
         });
 
-        btnLightSwitch = (Button) findViewById(R.id.btnLightSwitch);
         btnLightSwitch.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -141,7 +148,6 @@ public class SoundRecorderActivity extends AppCompatActivity {
             }
         });
 
-        btnSendMsg = (Button) findViewById(R.id.btnSendMsg);
         btnSendMsg.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -153,7 +159,6 @@ public class SoundRecorderActivity extends AppCompatActivity {
     }
 
     private void initializeSoundRecorder(){
-        amplitudeValue = (TextView) findViewById(R.id.amplitudeValue);
         soundRecorderController = new SoundRecorderController(this);
     }
 

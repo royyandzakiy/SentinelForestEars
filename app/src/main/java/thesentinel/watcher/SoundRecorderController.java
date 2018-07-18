@@ -48,6 +48,17 @@ public class SoundRecorderController {
         }
     }
 
+    public void cleanUp() {
+        if(mRecorder != null) {
+            try {
+                mRecorder.stop();
+            } finally {
+                mRecorder.release();
+                mRecorder = null;
+            }
+        }
+    }
+
     private void getPermission() {
         if (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
 
