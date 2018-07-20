@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,13 +25,12 @@ public class SoundRecorderActivity extends AppCompatActivity {
     private SoundRecorderController soundRecorderController;
     private TextView amplitudeValue;
     private ConstraintLayout constraintLayout;
-    private static double MAX_AMPLITUDE_THRESHOLD = 85.0;
+    private static double MAX_AMPLITUDE_THRESHOLD = 80.0;
 
     /* Bluetooth */
     private BluetoothController bluetoothController;
-    private Button btnLightSwitch, btnDisconnect, btnSendMsg;
+    private Button btnDisconnect, btnSendMsg;
     private EditText msg;
-    private boolean lightStatusOn = false;
     private ProgressDialog progress;
     private String address = null;
 
@@ -43,7 +43,7 @@ public class SoundRecorderActivity extends AppCompatActivity {
         initializeLayout();
 
         /* Sound Recorder */
-        // initializeSoundRecorder();
+        initializeSoundRecorder();
 
         /* Bluetooth */
         initializeBlutooth();
@@ -53,13 +53,23 @@ public class SoundRecorderActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        // soundRecorderController.record();
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // soundRecorderController.cleanUp();
+    protected void onResume() {
+        super.onResume();
+        if (soundRecorderController.checkRecordingPermission()) {
+            soundRecorderController.startRecording();
+        } else {
+            soundRecorderController.getPermission();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("DEBUG","SoundRecorderActivity::onPause");
+        soundRecorderController.stopRecording();
     }
 
     public void updateAmplitude(double amplitudeDb) {
@@ -81,8 +91,6 @@ public class SoundRecorderActivity extends AppCompatActivity {
     }
 
     private void actionTriggered() {
-        // do something when actionTriggered
-        //String s = msg.getText().toString();
         String s = msg.getText().toString();
         this.sendMsg(s);
         Toast.makeText(this.getApplicationContext(), "Triggered!", Toast.LENGTH_SHORT);
@@ -90,7 +98,6 @@ public class SoundRecorderActivity extends AppCompatActivity {
         Intent i = new Intent(getApplicationContext(),DetectedActivity.class);
         i.putExtra("latlng", String.valueOf(msg));
         startActivity(i);
-        // soundRecorderController.cleanUp();
     }
 
     public void showProgress() {
@@ -105,7 +112,6 @@ public class SoundRecorderActivity extends AppCompatActivity {
     private void initializeLayout() {
         constraintLayout = (ConstraintLayout) findViewById(R.id.constraintLayout);
         msg = (EditText) findViewById(R.id.msg);
-        btnLightSwitch = (Button) findViewById(R.id.btnLightSwitch);
         btnSendMsg = (Button) findViewById(R.id.btnTrigger);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -137,17 +143,6 @@ public class SoundRecorderActivity extends AppCompatActivity {
             }
         });
 
-        btnLightSwitch.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                if (lightStatusOn) {
-                    bluetoothController.turnOnLed();
-                } else {
-                    bluetoothController.turnOffLed();
-                }
-            }
-        });
-
         btnSendMsg.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -160,6 +155,11 @@ public class SoundRecorderActivity extends AppCompatActivity {
 
     private void initializeSoundRecorder(){
         soundRecorderController = new SoundRecorderController(this);
+        if (soundRecorderController.checkRecordingPermission()) {
+            soundRecorderController.startRecording();
+        } else {
+            soundRecorderController.getPermission();
+        }
     }
 
     @Override

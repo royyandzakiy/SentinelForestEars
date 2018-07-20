@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,10 +48,12 @@ public class BluetoothController {
             try
             {
                 btSocket.close(); //close connection
+                btSocket = null;
             }
             catch (IOException e)
             { msg("Error");}
         }
+        Log.d("DEBUG", "disconnect aman bos");
 
     }
 
@@ -60,36 +63,6 @@ public class BluetoothController {
             try
             {
                 btSocket.getOutputStream().write(msg.toString().getBytes());
-            }
-            catch (IOException e)
-            {
-                msg("Error");
-            }
-        }
-    }
-
-    public void turnOffLed()
-    {
-        if (btSocket!=null)
-        {
-            try
-            {
-                btSocket.getOutputStream().write("0".toString().getBytes());
-            }
-            catch (IOException e)
-            {
-                msg("Error");
-            }
-        }
-    }
-
-    public void turnOnLed()
-    {
-        if (btSocket!=null)
-        {
-            try
-            {
-                btSocket.getOutputStream().write("1".toString().getBytes());
             }
             catch (IOException e)
             {
@@ -151,6 +124,10 @@ public class BluetoothController {
                 isBtConnected = true;
             }
             activity.dismissProgress();
+
+            if (!ConnectSuccess) {
+                activity.finish();
+            }
         }
     }
 }

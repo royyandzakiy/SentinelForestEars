@@ -49,7 +49,6 @@ public class DeviceListActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Bluetooth Device Not Available", Toast.LENGTH_LONG).show();
 
             //finish apk
-            finish();
         }
         else if(!myBluetooth.isEnabled())
         {
@@ -128,7 +127,6 @@ public class DeviceListActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             startActivity(new Intent(DeviceListActivity.this,SoundRecorderActivity.class));
-            finish();
             return true;
         }
 
