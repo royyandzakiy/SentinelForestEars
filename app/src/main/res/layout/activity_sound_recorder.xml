@@ -37,6 +37,8 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
         android:textColor="#fff"
+        android:text="3#-6.89,107.61"
+        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@id/amplitudeLayout"/>
 
     <LinearLayout
