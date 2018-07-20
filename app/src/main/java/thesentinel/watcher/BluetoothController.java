@@ -1,6 +1,5 @@
 package thesentinel.watcher;
 
-import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -38,7 +37,7 @@ public class BluetoothController {
         }
         this.address = address;
         this.activity = activity;
-        new ConnectBT().execute(); //Call the class to connect
+        // new ConnectBT().execute(); //Call the class to connect
     }
 
     public void Disconnect()
@@ -103,7 +102,7 @@ public class BluetoothController {
         Toast.makeText(activity.getApplicationContext(),s,Toast.LENGTH_LONG).show();
     }
 
-    public void ConncetBT() {
+    public void connectBT() {
         new ConnectBT().execute();
     }
 
@@ -114,8 +113,7 @@ public class BluetoothController {
         @Override
         protected void onPreExecute()
         {
-            //ProgressDialog progress = ProgressDialog.show(activity.getApplicationContext(), "Connecting...", "Please wait!!!");  //show a progress dialog
-            //activity.setProgress(progress);
+            activity.showProgress();
         }
 
         @Override
@@ -152,7 +150,7 @@ public class BluetoothController {
                 msg("Connected.");
                 isBtConnected = true;
             }
-            // activity.getProgress().dismiss();
+            activity.dismissProgress();
         }
     }
 }

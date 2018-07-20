@@ -98,6 +98,8 @@ public class DeviceListActivity extends AppCompatActivity {
             String info = ((TextView) v).getText().toString();
             String address = info.substring(info.length() - 17);
 
+            Log.d("DEBUG", "address: " + address);
+
             // Make an intent to start next activity.
             Intent i = new Intent(DeviceListActivity.this, SoundRecorderActivity.class);
 

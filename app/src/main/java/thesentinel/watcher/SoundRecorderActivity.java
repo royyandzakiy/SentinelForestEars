@@ -43,17 +43,17 @@ public class SoundRecorderActivity extends AppCompatActivity {
         initializeLayout();
 
         /* Sound Recorder */
-        initializeSoundRecorder();
+        // initializeSoundRecorder();
 
         /* Bluetooth */
-        // initializeBlutooth();
+        initializeBlutooth();
     }
 
     /** SOUND RECORDER **/
     @Override
     protected void onStart() {
         super.onStart();
-        soundRecorderController.record();
+        // soundRecorderController.record();
     }
 
     @Override
@@ -76,29 +76,29 @@ public class SoundRecorderActivity extends AppCompatActivity {
         }
     }
 
-    private void sendMsg() {
-        String s = msg.getText().toString();
-        // bluetoothController.sendMsg(s);
+    private void sendMsg(String s) {
+        bluetoothController.sendMsg(s);
     }
 
     private void actionTriggered() {
         // do something when actionTriggered
-        this.sendMsg();
+        //String s = msg.getText().toString();
+        String s = msg.getText().toString();
+        this.sendMsg(s);
         Toast.makeText(this.getApplicationContext(), "Triggered!", Toast.LENGTH_SHORT);
 
         Intent i = new Intent(getApplicationContext(),DetectedActivity.class);
         i.putExtra("latlng", String.valueOf(msg));
         startActivity(i);
         // soundRecorderController.cleanUp();
-        finish();
     }
 
-    public void setProgress(ProgressDialog progress) {
-        this.progress = progress;
+    public void showProgress() {
+        progress = ProgressDialog.show(SoundRecorderActivity.this, "Connecting...", "Please wait!!!");  //show a progress dialog
     }
 
-    public ProgressDialog getProgress() {
-        return progress;
+    public void dismissProgress() {
+        progress.dismiss();
     }
 
     /** INITIALIZATION **/
@@ -106,7 +106,7 @@ public class SoundRecorderActivity extends AppCompatActivity {
         constraintLayout = (ConstraintLayout) findViewById(R.id.constraintLayout);
         msg = (EditText) findViewById(R.id.msg);
         btnLightSwitch = (Button) findViewById(R.id.btnLightSwitch);
-        btnSendMsg = (Button) findViewById(R.id.btnSendMsg);
+        btnSendMsg = (Button) findViewById(R.id.btnTrigger);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         amplitudeValue = (TextView) findViewById(R.id.amplitudeValue);
@@ -118,7 +118,7 @@ public class SoundRecorderActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),DeviceListActivity.class));
+                bluetoothController.Disconnect();
                 finish();
             }
         });
@@ -151,11 +151,11 @@ public class SoundRecorderActivity extends AppCompatActivity {
         btnSendMsg.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                sendMsg();
+                actionTriggered();
             }
         });
 
-        bluetoothController.ConncetBT(); //Call the class to connect
+        bluetoothController.connectBT(); //Call the class to connect
     }
 
     private void initializeSoundRecorder(){
